@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corre Icoaraci</title>
+
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<style>
+
+:root{
+
+--laranja:#FF6B00;
+
+--vermelho:#e74c3c;
+--verde:#27ae60;
+--azul:#2980b9;
+
+--azul-escuro:#1B2A41;
+
+--corpo:#f4f7f6;
+--texto:#2c3e50;
+--branco:#ffffff;
+
+}
+
+/* RESET */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:var(--corpo);
+color:var(--texto);
+padding-bottom:80px;
+}
+
+/* HEADER */
+
+header{
+
+background:linear-gradient(135deg,var(--laranja),#ff8c42);
+
+color:white;
+
+padding:30px 20px;
+
+text-align:center;
+
+border-bottom:5px solid var(--laranja);
+
+}
+
+header h1{
+
+letter-spacing:2px;
+
+}
+
+header p{
+
+font-size:.9rem;
+
+opacity:.9;
+
+}
+
+/* CONTAINER */
+
+.container{
+
+padding:20px;
+
+max-width:600px;
+
+margin:auto;
+
+}
+
+/* ROTAS */
+
+.rota-card{
+
+background:var(--branco);
+
+border-radius:15px;
+
+padding:20px;
+
+margin-bottom:15px;
+
+box-shadow:0 4px 6px rgba(0,0,0,.05);
+
+border-left:8px solid #ccc;
+
+}
+
+.vermelha{border-left-color:var(--vermelho)}
+.verde{border-left-color:var(--verde)}
+.azul{border-left-color:var(--azul)}
+
+.rota-card h3{
+
+font-size:1.1rem;
+
+margin-bottom:8px;
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
+
+.rota-card p{
+
+font-size:.9rem;
+
+line-height:1.4;
+
+color:#666;
+
+margin-bottom:15px;
+
+}
+
+/* BOTÃO MAPS */
+
+.btn-maps{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:8px;
+
+background:#f1f1f1;
+
+color:#333;
+
+text-decoration:none;
+
+padding:10px;
+
+border-radius:8px;
+
+font-size:.85rem;
+
+font-weight:bold;
+
+border:1px solid #ddd;
+
+transition:.3s;
+
+}
+
+.btn-maps:hover{
+
+background:#e9e9e9;
+
+}
+
+/* FORMULÁRIO */
+
+label{
+
+display:block;
+
+font-size:.75rem;
+
+font-weight:bold;
+
+color:#7f8c8d;
+
+margin-top:10px;
+
+margin-left:5px;
+
+text-transform:uppercase;
+
+}
+
+input,select,textarea{
+
+width:100%;
+
+padding:12px;
+
+margin:5px 0 15px 0;
+
+border-radius:8px;
+
+border:1px solid #ddd;
+
+font-size:.9rem;
+
+}
+
+textarea{
+
+resize:none;
+
+height:80px;
+
+}
+
+/* FAQ */
+
+details{
+
+background:var(--branco);
+
+border-radius:10px;
+
+padding:15px;
+
+margin-bottom:10px;
+
+box-shadow:0 2px 4px rgba(0,0,0,.05);
+
+cursor:pointer;
+
+}
+
+summary{
+
+font-weight:bold;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+list-style:none;
+
+}
+
+summary::after{
+
+content:'➕';
+
+font-size:.8rem;
+
+color:var(--laranja);
+
+}
+
+details[open] summary::after{
+
+content:'➖';
+
+}
+
+/* SEÇÕES */
+
+.secao{
+
+display:none;
+
+}
+
+.secao.ativa{
+
+display:block;
+
+animation:slideUp .4s;
+
+}
+
+@keyframes slideUp{
+
+from{opacity:0;transform:translateY(20px)}
+
+to{opacity:1;transform:translateY(0)}
+
+}
+
+/* MENU */
+
+nav{
+
+position:fixed;
+
+bottom:0;
+
+width:100%;
+
+background:var(--branco);
+
+display:flex;
+
+justify-content:space-around;
+
+padding:12px 0;
+
+border-top:1px solid #eee;
+
+z-index:100;
+
+}
+
+nav button{
+
+background:none;
+
+border:none;
+
+color:#95a5a6;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+font-size:.7rem;
+
+cursor:pointer;
+
+}
+
+nav button.ativo{
+
+color:var(--laranja);
+
+font-weight:bold;
+
+}
+
+nav i{
+
+font-size:1.6rem;
+
+}
+
+/* BOTÃO PRINCIPAL */
+
+.btn-acao{
+
+background:var(--laranja);
+
+color:white;
+
+border:none;
+
+width:100%;
+
+padding:15px;
+
+border-radius:8px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+font-size:1rem;
+
+margin-top:10px;
+
+transition:.3s;
+
+}
+
+.btn-acao:hover{
+
+background:#e65c00;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>CORRE ICOARACI</h1>
+
+<p>Treino difícil, corrida fácil!</p>
+
+</header>
+
+<div class="container">
+
+<div id="rotas" class="secao ativa">
+
+<h2 style="margin-bottom:20px;">📍 Rotas de Hoje</h2>
+
+<div class="rota-card vermelha">
+
+<h3><i class="ph ph-fire-simple"></i> Zona Vermelha</h3>
+
+<p><strong>Meta:</strong> 20,4km abaixo de 50 minutos<br>
+<strong>Percurso:</strong> Orla de Icoaraci - Parque do Utinga.</p>
+
+<a href="https://www.google.com/maps/dir/Orla+de+Icoaraci+-+Icoaraci,+Bel%C3%A9m+-+PA,+66810-020/Parque+do+Utinga,+Av.+Jo%C3%A3o+Paulo+II+-+Curi%C3%B3-Utinga,+Bel%C3%A9m+-+PA,+68447-000/@-1.3587836,-48.5430387,12z/am=t/data=!4m13!4m12!1m5!1m1!1s0x92a4654a5f0d50b3:0xae218454266aa98f!2m2!1d-48.4899643!2d-1.2949022!1m5!1m1!1s0x92a48b007bde9b15:0xa18ad34cfaeda4e9!2m2!1d-48.4390783!2d-1.4151401?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-maps">
+
+<i class="ph ph-google-logo"></i>
+
+Ver Rota no Google Maps
+
+</a>
+
+</div>
+
+<div class="rota-card verde">
+
+<h3><i class="ph ph-lightning"></i> Zona Verde</h3>
+
+<p><strong>Meta:</strong> 2,7km abaixo de 20 minutos<br>
+<strong>Percurso:</strong> Orla de Icoaraci - Travessa Berredos.</p>
+
+<a href="https://www.google.com/maps/dir/Orla+de+Icoaraci+-+Icoaraci,+Bel%C3%A9m+-+PA,+66810-020/Tv.+Berredos+-+Icoaraci,+Bel%C3%A9m+-+PA,+66812-440/@-1.2998226,-48.4948816,15z/am=t/data=!4m13!4m12!1m5!1m1!1s0x92a4654a5f0d50b3:0xae218454266aa98f!2m2!1d-48.4899643!2d-1.2949022!1m5!1m1!1s0x92a46402ab5dd9a7:0xe00aae90e7421add!2m2!1d-48.4791994!2d-1.3063164?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-maps">
+
+<i class="ph ph-google-logo"></i>
+
+Ver Rota no Google Maps
+
+</a>
+
+</div>
+
+<div class="rota-card azul">
+
+<h3><i class="ph ph-person-walking"></i> Zona Azul</h3>
+
+<p><strong>Meta:</strong> 30 minutos de caminhada<br>
+<strong>Percurso:</strong> Orla de Icoaraci - Ponte Pastor Firmino Gouveia.</p>
+
+<a href="https://www.google.com/maps/dir/Orla+de+Icoaraci+-+Icoaraci,+Bel%C3%A9m+-+PA,+66810-020/Ponte+Icoaraci%E2%80%93Outeiro+%E2%80%93+Pastor+Firmino+Gouveia,+Av.+BL+Dez+-+Bras%C3%ADlia,+Bel%C3%A9m+-+PA,+66845-840/@-1.2911671,-48.4893342,16z/am=t/data=!4m13!4m12!1m5!1m1!1s0x92a4654a5f0d50b3:0xae218454266aa98f!2m2!1d-48.4899643!2d-1.2949022!1m5!1m1!1s0x92a46700166cbd85:0xdfb601b4ddf49e3d!2m2!1d-48.4788191!2d-1.2886783?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-maps">
+
+<i class="ph ph-google-logo"></i>
+
+Ver Rota no Google Maps
+
+</a>
+
+</div>
+
+</div>
+
+<div id="cadastro" class="secao">
+
+<h2 style="margin-bottom:20px;">📝 Ficha do Atleta</h2>
+
+<div class="rota-card" style="border-left:none;">
+
+<label>Identificação</label>
+
+<input type="text" id="nome" placeholder="Nome Completo">
+
+<input type="date" id="nascimento">
+
+<input type="text" id="endereco" placeholder="Seu Endereço">
+
+<input type="tel" id="telefone" placeholder="WhatsApp (91) 9xxxx-xxxx">
+
+<label>Saúde e Segurança</label>
+
+<select id="sangue">
+
+<option>Tipo Sanguíneo</option>
+
+<option>A+</option>
+<option>A-</option>
+<option>B+</option>
+<option>B-</option>
+<option>AB+</option>
+<option>AB-</option>
+<option>O+</option>
+<option>O-</option>
+
+</select>
+
+<input type="text" id="emergencia_nome" placeholder="Contato de Emergência">
+
+<input type="tel" id="emergencia_fone" placeholder="Telefone Emergência">
+
+<textarea id="saude" placeholder="Alergias ou Condições Médicas"></textarea>
+
+<label>Performance</label>
+
+<input type="text" id="pace" placeholder="Pace Médio (06:30)">
+
+<select id="categoria">
+
+<option>Zona Azul (Iniciante)</option>
+
+<option>Zona Verde (Intermediário)</option>
+
+<option>Zona Vermelha (Avançado)</option>
+
+</select>
+
+<button class="btn-acao" onclick="registrar()">
+
+ENVIAR FICHA COMPLETA
+
+</button>
+
+</div>
+
+</div>
+
+<div id="didatica" class="secao">
+
+<h2 style="margin-bottom:20px;">📚 Dúvidas Frequentes</h2>
+
+<details>
+
+<summary>💡 O que é o PACE?</summary>
+
+<p>É o tempo médio que você leva para percorrer 1km.</p>
+
+</details>
+
+<details>
+
+<summary>🦵 Como evitar a canelite?</summary>
+
+<p>Evite aumentar distância de forma brusca, use tênis adequado e fortaleça panturrilhas.</p>
+
+</details>
+
+<details>
+
+<summary>💪 Qual a importância do fortalecimento?</summary>
+
+<p>O fortalecimento protege articulações e melhora o desempenho.</p>
+
+</details>
+
+</div>
+
+</div>
+
+<nav>
+
+<button onclick="navegar('rotas',this)" class="ativo">
+
+<i class="ph ph-map-trifold"></i>
+
+Rotas
+
+</button>
+
+<button onclick="navegar('cadastro',this)">
+
+<i class="ph ph-user-plus"></i>
+
+Cadastro
+
+</button>
+
+<button onclick="navegar('didatica',this)">
+
+<i class="ph ph-book-open"></i>
+
+Aprender
+
+</button>
+
+</nav>
+
+<script>
+
+function navegar(id,btn){
+
+document.querySelectorAll('.secao').forEach(s=>s.classList.remove('ativa'))
+
+document.getElementById(id).classList.add('ativa')
+
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('ativo'))
+
+btn.classList.add('ativo')
+
+window.scrollTo(0,0)
+
+}
+
+function registrar(){
+
+const d={
+
+nome:document.getElementById('nome').value,
+
+fone:document.getElementById('telefone').value,
+
+e_fone:document.getElementById('emergencia_fone').value
+
+}
+
+const meuWhatsapp="5591989058986"
+
+if(d.nome && d.fone && d.e_fone){
+
+const texto=`NOVA FICHA DE ATLETA - CORRE ICOARACI%0A%0A Nome:${d.nome}%0A Fone:${d.fone}%0A Emergência:${d.e_fone}`
+
+const url=`https://api.whatsapp.com/send?phone=${meuWhatsapp}&text=${texto}`
+
+window.open(url,'_blank')
+
+alert("Ficha enviada!")
+
+}
+
+else{
+
+alert("Preencha Nome, Telefone e Emergência")
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
